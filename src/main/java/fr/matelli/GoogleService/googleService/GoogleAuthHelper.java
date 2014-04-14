@@ -6,16 +6,13 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.oauth2.Oauth2Scopes;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.security.SecureRandom;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,8 +29,7 @@ public class GoogleAuthHelper {
     protected JsonFactory jsonFactory = new JacksonFactory();
     protected HttpTransport httpTransport = new NetHttpTransport();
 
-    protected List<String> scopes = Arrays.asList(Oauth2Scopes.USERINFO_EMAIL,
-            Oauth2Scopes.USERINFO_PROFILE, DriveScopes.DRIVE, CalendarScopes.CALENDAR);
+    protected List<String> scopes = new ArrayList<String>();
     protected String stateToken = null;
     protected String refreshToken = null;
 
@@ -63,7 +59,6 @@ public class GoogleAuthHelper {
 //                throw new Exception("Redirect URI not found");
             this.redirectUri = baseRedirectUri + redirectUri;
         }
-        getFlow();
     }
 
     // =========================================================================
@@ -114,6 +109,7 @@ public class GoogleAuthHelper {
      * @throws java.io.IOException
      */
     public Credential exchangeCode() throws IOException {
+        this.flow = getFlow();
         Credential credential = null;
 
         if (refreshToken == null) {
@@ -148,6 +144,7 @@ public class GoogleAuthHelper {
      * @return L'url d'authorisation
      */
     public String getAuthorizationUrl() {
+        this.flow = getFlow();
         GoogleAuthorizationCodeRequestUrl urlBuilder = flow.newAuthorizationUrl()
                 .setRedirectUri(redirectUri)
                 .setState(stateToken);
@@ -190,5 +187,9 @@ public class GoogleAuthHelper {
 
     public String getRefreshToken() {
         return refreshToken;
+    }
+
+    public void setScopes(List<String> scopes) {
+        this.scopes = scopes;
     }
 }

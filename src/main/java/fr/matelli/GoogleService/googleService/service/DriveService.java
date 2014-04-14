@@ -2,29 +2,41 @@ package fr.matelli.GoogleService.googleService.service;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.oauth2.Oauth2Scopes;
 import fr.matelli.GoogleService.googleService.GoogleAuthHelper;
 import fr.matelli.GoogleService.googleService.utils.MimeUtils;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DriveService extends GoogleAuthHelper {
+
+    {
+        this.setScopes(Arrays.asList(DriveScopes.DRIVE));
+    }
 
     private Drive serviceDrive = null;
 
     protected Logger logger = Logger.getLogger(DriveService.class);
 
     /**
-     * Contructeur par defaut
-     *
      * @param redirectUri CallBalk
      * @throws Exception
      */
+    public DriveService(String redirectUri, List<String> scopes) throws Exception {
+        super(redirectUri);
+        this.scopes.clear();
+        this.scopes.addAll(scopes);
+    }
+
     public DriveService(String redirectUri) throws Exception {
         super(redirectUri);
     }

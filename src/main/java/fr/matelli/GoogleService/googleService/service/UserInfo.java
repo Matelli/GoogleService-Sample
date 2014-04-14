@@ -1,22 +1,31 @@
 package fr.matelli.GoogleService.googleService.service;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.oauth2.Oauth2;
+import com.google.api.services.oauth2.Oauth2Scopes;
 import com.google.api.services.oauth2.model.Userinfoplus;
 import fr.matelli.GoogleService.googleService.GoogleAuthHelper;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class UserInfo extends GoogleAuthHelper {
 
-    public UserInfo(String redirectUri) throws Exception {
-        super(redirectUri);
+    {
+        this.setScopes(Arrays.asList(Oauth2Scopes.USERINFO_EMAIL,
+                Oauth2Scopes.USERINFO_PROFILE));
     }
 
     public UserInfo(String redirectUri, List<String> scopes) throws Exception {
         super(redirectUri);
+        this.scopes.clear();
         this.scopes.addAll(scopes);
+    }
+
+    public UserInfo(String redirectUri) throws Exception {
+        super(redirectUri);
     }
 
     /**

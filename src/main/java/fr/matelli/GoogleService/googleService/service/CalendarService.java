@@ -3,24 +3,38 @@ package fr.matelli.GoogleService.googleService.service;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.FileList;
 import fr.matelli.GoogleService.googleService.GoogleAuthHelper;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CalendarService extends GoogleAuthHelper {
 
+    {
+        this.setScopes(Arrays.asList(CalendarScopes.CALENDAR));
+    }
+
     protected com.google.api.services.calendar.Calendar serviceCalendar = null;
 
     protected Logger logger = Logger.getLogger(CalendarService.class);
+
+    public CalendarService(String redirectUri, List<String> scopes) throws Exception {
+        super(redirectUri);
+        this.scopes.clear();
+        this.scopes.addAll(scopes);
+    }
 
     public CalendarService(String redirectUri) throws Exception {
         super(redirectUri);
