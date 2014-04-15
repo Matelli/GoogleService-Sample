@@ -1,20 +1,13 @@
 package fr.matelli.GoogleService.googleService.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Utilities for dealing with MIME types.
  * Used to implement java.net.URLConnection and android.webkit.MimeTypeMap.
  */
 public final class MimeUtils {
-
-    private static final Map<String, String> mimeTypeToExtensionMap = new HashMap<String, String>();
 
     private static final Map<String, String> extensionToMimeTypeMap = new HashMap<String, String>();
 
@@ -192,7 +185,6 @@ public final class MimeUtils {
         add("audio/midi", "kar");
         add("audio/midi", "xmf");
         add("audio/mobile-xmf", "mxmf");
-        // add ".mp3" first so it will be the default for guessExtensionFromMimeType
         add("audio/mpeg", "mp3");
         add("audio/mpeg", "mpga");
         add("audio/mpeg", "mpega");
@@ -264,12 +256,11 @@ public final class MimeUtils {
         add("text/h323", "323");
         add("text/iuls", "uls");
         add("text/mathml", "mml");
-        // add ".txt" first so it will be the default for guessExtensionFromMimeType
         add("text/plain", "txt");
         add("text/plain", "asc");
         add("text/plain", "text");
         add("text/plain", "diff");
-        add("text/plain", "po");     // reserve "pot" for vnd.ms-powerpoint
+        add("text/plain", "po");
         add("text/richtext", "rtx");
         add("text/rtf", "rtf");
         add("text/texmacs", "ts");
@@ -336,105 +327,10 @@ public final class MimeUtils {
         add("video/x-webex", "wrf");
         add("x-conference/x-cooltalk", "ice");
         add("x-epoc/x-sisx-app", "sisx");
-        applyOverrides();
     }
 
     private static void add(String mimeType, String extension) {
-        //
-        // if we have an existing x --> y mapping, we do not want to
-        // override it with another mapping x --> ?
-        // this is mostly because of the way the mime-type map below
-        // is constructed (if a mime type maps to several extensions
-        // the first extension is considered the most popular and is
-        // added first; we do not want to overwrite it later).
-        //
-        if (!mimeTypeToExtensionMap.containsKey(mimeType)) {
-            mimeTypeToExtensionMap.put(mimeType, extension);
-        }
         extensionToMimeTypeMap.put(extension, mimeType);
-    }
-
-    private static InputStream getContentTypesPropertiesStream() {
-        // UserInfo override?
-        String userTable = System.getProperty("content.types.user.table");
-        if (userTable != null) {
-            File f = new File(userTable);
-            if (f.exists()) {
-                try {
-                    return new FileInputStream(f);
-                } catch (IOException ignored) {
-                }
-            }
-        }
-
-        // Standard location?
-        File f = new File(System.getProperty("java.home"), "lib" + File.separator + "content-types.properties");
-        if (f.exists()) {
-            try {
-                return new FileInputStream(f);
-            } catch (IOException ignored) {
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * This isn't what the RI does. The RI doesn't have hard-coded defaults, so supplying your
-     * own "content.types.user.table" means you don't get any of the built-ins, and the built-ins
-     * come from "$JAVA_HOME/lib/content-types.properties".
-     */
-    private static void applyOverrides() {
-        // Get the appropriate InputStream to read overrides from, if any.
-        InputStream stream = getContentTypesPropertiesStream();
-        if (stream == null) {
-            return;
-        }
-
-        try {
-            try {
-                // Read the properties file...
-                Properties overrides = new Properties();
-                overrides.load(stream);
-                // And translate its mapping to ours...
-                for (Map.Entry<Object, Object> entry : overrides.entrySet()) {
-                    String extension = (String) entry.getKey();
-                    String mimeType = (String) entry.getValue();
-                    add(mimeType, extension);
-                }
-            } finally {
-                stream.close();
-            }
-        } catch (IOException ignored) {
-        }
-    }
-
-    private MimeUtils() {
-
-    }
-
-    /**
-     * Returns true if the given MIME type has an entry in the map.
-     * @param mimeType A MIME type (i.e. text/plain)
-     * @return True iff there is a mimeType entry in the map.
-     */
-    public static boolean hasMimeType(String mimeType) {
-        if (mimeType == null || mimeType.isEmpty()) {
-            return false;
-        }
-        return mimeTypeToExtensionMap.containsKey(mimeType);
-    }
-
-    /**
-     * Returns the MIME type for the given extension.
-     * @param extension A file extension without the leading '.'
-     * @return The MIME type for the given extension or null iff there is none.
-     */
-    public static String guessMimeTypeFromExtension(String extension) {
-        if (extension == null || extension.isEmpty()) {
-            return null;
-        }
-        return extensionToMimeTypeMap.get(extension);
     }
 
     /**
@@ -449,17 +345,4 @@ public final class MimeUtils {
         return extensionToMimeTypeMap.containsKey(extension);
     }
 
-    /**
-     * Returns the registered extension for the given MIME type. Note that some
-     * MIME types map to multiple extensions. This call will return the most
-     * common extension for the given MIME type.
-     * @param mimeType A MIME type (i.e. text/plain)
-     * @return The extension for the given MIME type or null iff there is none.
-     */
-    public static String guessExtensionFromMimeType(String mimeType) {
-        if (mimeType == null || mimeType.isEmpty()) {
-            return null;
-        }
-        return mimeTypeToExtensionMap.get(mimeType);
-    }
 }
