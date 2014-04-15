@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/userinfo")
@@ -22,19 +24,26 @@ public class UserInfoController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String printInfoUser(ModelMap model, HttpServletRequest request) throws Exception {
+    public String printInfoUser(ModelMap model, HttpServletRequest request, HttpSession session) throws Exception {
         if (request.getParameter("code") != null) {
             UserInfo userInfo = new UserInfo("/userinfo/login");
             userInfo.setAuthorizationCode(request.getParameter("code"));
             Credential credential = userInfo.exchangeCode();
-            System.out.println("refresh token = " + userInfo.getRefreshToken());
             Userinfoplus user = userInfo.getUserInfo(credential);
-            model.addAttribute("user", user);
-        } else {
-            model.addAttribute("error", "Aucun code de retour de google");
+            if (user != null && user.isVerifiedEmail()) {
+                session.setAttribute("user", user);
+                session.setAttribute("refreshToken", credential.getRefreshToken());
+                return "redirect:/home";
+            }
         }
-        System.out.println("model = [" + model + "], request = [" + request + "]");
-        return "userinfo/login";
+        model.addAttribute("error", "Problèmes d'authentification");
+        return printHome(model);
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String signout(ModelAndView model, HttpServletRequest request, HttpSession httpSession) {
+        httpSession.invalidate();
+        return "redirect:/";
     }
 	
 }

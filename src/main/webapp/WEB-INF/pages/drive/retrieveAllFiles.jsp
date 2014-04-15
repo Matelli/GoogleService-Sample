@@ -15,7 +15,7 @@
                 <td><img src="${file.thumbnailLink}" border="1px" width="70px"/></td>
                 <td>
                     <ul>
-                        <li><img src="${file.iconLink}" /> <a href="${file.alternateLink}">Edit</a> | <a href="${file.embedLink}">Html</a></li>
+                        <li><img src="${file.iconLink}" /> <a href="${file.alternateLink}" target="_blank">Edit</a> | <a href="${file.embedLink}" target="_blank">Html</a></li>
                         <li>title : ${file.title}</li>
                         <li>createdDate : ${file.createdDate}</li>
                         <li>lastModifyingUserName : ${file.lastModifyingUserName}</li>

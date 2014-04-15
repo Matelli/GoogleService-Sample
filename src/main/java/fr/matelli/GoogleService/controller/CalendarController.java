@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -19,26 +20,35 @@ import java.util.List;
 public class CalendarController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String printHome(ModelMap model) throws Exception {
-        DriveService driveService = new DriveService("/calendar/calendarList");
-        model.addAttribute("authorizationUrlGoogle", driveService.getAuthorizationUrl());
-        return "calendar/index";
+    public String printHome(ModelMap model, HttpSession session) throws Exception {
+        if (session.getAttribute("user") != null) {
+            CalendarService driveService = new CalendarService("/calendar/calendarList");
+            driveService.setRefreshToken(session.getAttribute("refreshToken").toString());
+            model.addAttribute("authorizationUrlGoogleCalendarList", driveService.getAuthorizationUrl());
+            return "calendar/index";
+        } else {
+            return "redirect:/userinfo";
+        }
     }
 
     @RequestMapping(value = "/calendarList", method = RequestMethod.GET)
-    public String printCalendarList(ModelMap model, HttpServletRequest request) throws Exception {
-        if (request.getParameter("code") != null) {
-            CalendarService calendarService = new CalendarService("/calendar/calendarList");
-            calendarService.setAuthorizationCode(request.getParameter("code"));
-            Credential credential = calendarService.exchangeCode();
-            System.out.println("refresh token = " + calendarService.getRefreshToken());
-            List<CalendarListEntry> calendarListEntries = calendarService.calendarList(credential);
-            model.addAttribute("calendarListEntries", calendarListEntries);
+    public String printCalendarList(ModelMap model, HttpServletRequest request, HttpSession session) throws Exception {
+        if (session.getAttribute("user") != null) {
+            if (request.getParameter("code") != null) {
+                CalendarService calendarService = new CalendarService("/calendar/calendarList");
+                calendarService.setAuthorizationCode(request.getParameter("code"));
+                Credential credential = calendarService.exchangeCode();
+                List<CalendarListEntry> calendarListEntries = calendarService.calendarList(credential);
+                System.out.println("CalendarController.printCalendarList - getRefreshToken = " + calendarService.getRefreshToken());
+                model.addAttribute("calendarListEntries", calendarListEntries);
+            } else {
+                model.addAttribute("error", "Aucun code de retour de google");
+            }
+            System.out.println("model = [" + model + "], request = [" + request + "]");
+            return "calendar/calendarList";
         } else {
-            model.addAttribute("error", "Aucun code de retour de google");
+            return "redirect:/userinfo";
         }
-        System.out.println("model = [" + model + "], request = [" + request + "]");
-        return "calendar/calendarList";
     }
 	
 }

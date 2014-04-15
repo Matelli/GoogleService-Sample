@@ -54,9 +54,7 @@ public class GoogleAuthHelper {
      * @throws Exception
      */
     public GoogleAuthHelper(String redirectUri) throws Exception {
-        if (redirectUri != null) {
-//            if (!googleClientSecrets.getWeb().getRedirectUris().contains(new String(baseRedirectUri + redirectUri)))
-//                throw new Exception("Redirect URI not found");
+        if (redirectUri != null && !redirectUri.isEmpty()) {
             this.redirectUri = baseRedirectUri + redirectUri;
         }
     }
@@ -132,9 +130,8 @@ public class GoogleAuthHelper {
                     .build();
             credential.setRefreshToken(refreshToken);
         }
-        logger.info("RefreshToken : " + credential.getRefreshToken());
-        logger.info("AccessToken : " + credential.getAccessToken());
-        logger.info("ExpiresInSeconds : " + credential.getExpiresInSeconds());
+        System.out.println("RefreshToken : " + credential.getRefreshToken());
+        System.out.println("AccessToken : " + credential.getAccessToken());
         return credential;
     }
 

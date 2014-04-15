@@ -8,14 +8,10 @@ import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.drive.model.FileList;
 import fr.matelli.GoogleService.googleService.GoogleAuthHelper;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,18 +22,18 @@ public class CalendarService extends GoogleAuthHelper {
         this.setScopes(Arrays.asList(CalendarScopes.CALENDAR));
     }
 
-    protected com.google.api.services.calendar.Calendar serviceCalendar = null;
+    protected Calendar serviceCalendar = null;
 
     protected Logger logger = Logger.getLogger(CalendarService.class);
+
+    public CalendarService(String redirectUri) throws Exception {
+        super(redirectUri);
+    }
 
     public CalendarService(String redirectUri, List<String> scopes) throws Exception {
         super(redirectUri);
         this.scopes.clear();
         this.scopes.addAll(scopes);
-    }
-
-    public CalendarService(String redirectUri) throws Exception {
-        super(redirectUri);
     }
 
     /**
@@ -48,8 +44,8 @@ public class CalendarService extends GoogleAuthHelper {
      */
     private Calendar createServiceCalendar(Credential credential) {
         if (serviceCalendar == null) {
-            serviceCalendar = new com.google.api.services.calendar.Calendar.Builder(httpTransport,
-                    jsonFactory, credential).setApplicationName(applicationName).build();
+            serviceCalendar = new Calendar.Builder(httpTransport, jsonFactory, credential)
+                    .setApplicationName(applicationName).build();
         }
         return serviceCalendar;
     }
@@ -80,7 +76,6 @@ public class CalendarService extends GoogleAuthHelper {
         com.google.api.services.calendar.model.Calendar createdCalendar = serviceCalendar.calendars().insert(calendar).execute();
 
         logger.info("calendarInsert idCalendar : " + createdCalendar.getId());
-        logger.info("calendarInsert idCalendar : " + createdCalendar.getId());
         return createdCalendar;
     }
 
@@ -96,7 +91,7 @@ public class CalendarService extends GoogleAuthHelper {
     public com.google.api.services.calendar.model.Calendar calendarGet(Credential credential, String calendarIdGoogle) throws IOException {
         com.google.api.services.calendar.model.Calendar calendar = null;
         try {
-            com.google.api.services.calendar.Calendar.Calendars.Get get = serviceCalendar.calendars().get(calendarIdGoogle);
+            Calendar.Calendars.Get get = serviceCalendar.calendars().get(calendarIdGoogle);
             calendar = get.execute();
             logger.info("calendarGet : " + calendar.getSummary());
             return calendar;
@@ -106,14 +101,6 @@ public class CalendarService extends GoogleAuthHelper {
             logger.warn("Warning (Le calendrier n'existe pas) : " + e);
             return null;
         }
-    }
-
-    public FileList searchFile(Credential credential, String mimeType, String title) throws IOException {
-        com.google.api.services.drive.Drive serviceDrive = new com.google.api.services.drive.Drive.Builder(httpTransport, jsonFactory, credential)
-                .setApplicationName(applicationName).build();
-        Drive.Files.List request = serviceDrive.files().list().setQ(
-                "mimeType='" + mimeType + "' and trashed=false and title='" +  title + "'");
-        return request.execute();
     }
 
     /**
