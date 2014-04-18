@@ -26,12 +26,6 @@ public class UserInfo extends GoogleAuthHelper {
                 Oauth2Scopes.USERINFO_PROFILE));
     }
 
-    public UserInfo(String redirectUri, List<String> scopes) throws Exception {
-        super(redirectUri);
-        this.scopes.clear();
-        this.scopes.addAll(scopes);
-    }
-
     public UserInfo(String redirectUri) throws Exception {
         super(redirectUri);
     }
@@ -46,11 +40,10 @@ public class UserInfo extends GoogleAuthHelper {
      */
     public Userinfoplus getUserInfo(Credential credential) throws IOException {
         Oauth2 userInfoService = new Oauth2.Builder(httpTransport, jsonFactory, credential).build();
-        Userinfoplus userInfo = null;
-        userInfo = userInfoService.userinfo().get().execute();
+        Userinfoplus userInfo = userInfoService.userinfo().get().execute();
         if (userInfo != null && userInfo.getId() != null) {
             return userInfo;
         }
-        return userInfo;
+        return null;
     }
 }

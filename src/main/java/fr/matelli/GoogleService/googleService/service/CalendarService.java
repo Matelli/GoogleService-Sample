@@ -38,12 +38,6 @@ public class CalendarService extends GoogleAuthHelper {
         super(redirectUri);
     }
 
-    public CalendarService(String redirectUri, List<String> scopes) throws Exception {
-        super(redirectUri);
-        this.scopes.clear();
-        this.scopes.addAll(scopes);
-    }
-
     /**
      * Create the calendar service
      *

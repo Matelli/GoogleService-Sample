@@ -35,16 +35,6 @@ public class DriveService extends GoogleAuthHelper {
 
     protected Logger logger = Logger.getLogger(DriveService.class);
 
-    /**
-     * @param redirectUri CallBalk
-     * @throws Exception
-     */
-    public DriveService(String redirectUri, List<String> scopes) throws Exception {
-        super(redirectUri);
-        this.scopes.clear();
-        this.scopes.addAll(scopes);
-    }
-
     public DriveService(String redirectUri) throws Exception {
         super(redirectUri);
     }
