@@ -7,3 +7,4 @@
 GoogleService.properties
 GoogleService.script
 **/client_secret.json
+/target
