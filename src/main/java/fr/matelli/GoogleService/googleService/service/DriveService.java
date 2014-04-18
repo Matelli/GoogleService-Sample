@@ -27,7 +27,8 @@ import java.util.List;
 public class DriveService extends GoogleAuthHelper {
 
     {
-        this.setScopes(Arrays.asList(DriveScopes.DRIVE));
+        // Liste des autorisations
+        this.scopes.addAll(Arrays.asList(DriveScopes.DRIVE));
     }
 
     private Drive serviceDrive = null;

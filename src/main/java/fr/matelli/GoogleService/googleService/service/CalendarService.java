@@ -27,7 +27,7 @@ public class CalendarService extends GoogleAuthHelper {
 
     {
         // Liste des authorisations
-        this.setScopes(Arrays.asList(CalendarScopes.CALENDAR));
+        this.scopes.addAll(Arrays.asList(CalendarScopes.CALENDAR));
     }
 
     protected Calendar serviceCalendar = null;

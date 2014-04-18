@@ -21,7 +21,8 @@ import java.util.List;
 public class UserInfo extends GoogleAuthHelper {
 
     {
-        this.setScopes(Arrays.asList(Oauth2Scopes.USERINFO_EMAIL,
+        // Liste des autorisations
+        this.scopes.addAll(Arrays.asList(Oauth2Scopes.USERINFO_EMAIL,
                 Oauth2Scopes.USERINFO_PROFILE));
     }
 
