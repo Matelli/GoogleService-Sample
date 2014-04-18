@@ -107,13 +107,9 @@ public class DriveService extends GoogleAuthHelper {
      * @param fileId
      * @throws java.io.IOException
      */
-    public void printFile(Credential credential, String fileId) throws IOException {
+    public File getFile(Credential credential, String fileId) throws IOException {
         createServiceDrive(credential);
-        File file = serviceDrive.files().get(fileId).execute();
-
-        logger.info("Title: " + file.getTitle());
-        logger.info("Description: " + file.getDescription());
-        logger.info("MIME type: " + file.getMimeType());
+        return serviceDrive.files().get(fileId).execute();
     }
 
     /**
