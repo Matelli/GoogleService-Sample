@@ -16,9 +16,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Classe permettant d'interagir avec les services Google Calendar
+ *
+ * @author <a href="http://www.matelli.fr">Matelli</a>
+ * @see fr.matelli.GoogleService.googleService.GoogleAuthHelper
+ * @see <a href"https://developers.google.com/google-apps/calendar/v3/reference/>https://developers.google.com/google-apps/calendar/v3/reference/</a>
+ */
 public class CalendarService extends GoogleAuthHelper {
 
     {
+        // Liste des authorisations
         this.setScopes(Arrays.asList(CalendarScopes.CALENDAR));
     }
 
@@ -52,6 +60,9 @@ public class CalendarService extends GoogleAuthHelper {
 
     /**
      * Subscribe to calendar
+     *
+     * @param calendarId
+     * @return CalendarListEntry
      * @throws java.io.IOException
      */
     public CalendarListEntry calendarListInsert(String calendarId) throws IOException {
@@ -64,11 +75,13 @@ public class CalendarService extends GoogleAuthHelper {
      * Créer un Calendrier
      *
      * @param credential
+     * @param nameOfCalendar
      * @return The new CalendarService
      * @throws java.io.IOException
      * @see "https://developers.google.com/google-apps/calendar/v3/reference/calendars/insert"
      */
     public com.google.api.services.calendar.model.Calendar calendarInsert(Credential credential, String nameOfCalendar) throws IOException {
+        createServiceCalendar(credential);
         com.google.api.services.calendar.model.Calendar calendar = new com.google.api.services.calendar.model.Calendar();
         calendar.setSummary(nameOfCalendar);
         calendar.setTimeZone("Europe/Paris");
@@ -89,6 +102,7 @@ public class CalendarService extends GoogleAuthHelper {
      * @see "https://developers.google.com/google-apps/calendar/v3/reference/calendars/get"
      */
     public com.google.api.services.calendar.model.Calendar calendarGet(Credential credential, String calendarIdGoogle) throws IOException {
+        createServiceCalendar(credential);
         com.google.api.services.calendar.model.Calendar calendar = null;
         try {
             Calendar.Calendars.Get get = serviceCalendar.calendars().get(calendarIdGoogle);
@@ -135,6 +149,7 @@ public class CalendarService extends GoogleAuthHelper {
      */
     public List<Event> eventsList(Credential credential, String calendarIdGoogle, DateTime timeMin)
             throws IOException {
+        createServiceCalendar(credential);
         String pageToken = null;
         List<Event> listEvents = new ArrayList<Event>();
 
@@ -164,6 +179,7 @@ public class CalendarService extends GoogleAuthHelper {
      */
     public Event eventInsert(Credential credential, String calendarIdGoogle, Event event)
             throws IOException {
+        createServiceCalendar(credential);
         Event createdEvent = serviceCalendar.events().insert(calendarIdGoogle, event).execute();
         logger.info("createdEvent : " + createdEvent.getId() + ", " + event.getSummary());
         return createdEvent;
@@ -180,6 +196,7 @@ public class CalendarService extends GoogleAuthHelper {
      */
     public Event eventUpdate(Credential credential, String calendarIdGoogle, Event event)
             throws IOException {
+        createServiceCalendar(credential);
         Event updatedEvent = serviceCalendar.events().update(calendarIdGoogle, event.getId(), event).execute();
         logger.info("eventUpdate updatedEvent : " + updatedEvent.toPrettyString());
         logger.info("createdUpdate : " + updatedEvent.getId() + ", " + event.getSummary());
@@ -198,6 +215,7 @@ public class CalendarService extends GoogleAuthHelper {
      */
     public Event eventGet(Credential credential, String calendarIdGoogle, String eventId)
             throws IOException {
+        createServiceCalendar(credential);
         Event event = serviceCalendar.events().get(calendarIdGoogle, eventId).execute();
         return event;
 
@@ -214,6 +232,7 @@ public class CalendarService extends GoogleAuthHelper {
      */
     public void eventDelete(Credential credential, String calendarIdGoogle, String eventId)
             throws IOException {
+        createServiceCalendar(credential);
         serviceCalendar.events().delete(calendarIdGoogle, eventId).execute();
     }
 }

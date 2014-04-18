@@ -4,7 +4,7 @@
     <a href="<%=request.getContextPath()%>/home">< Retour</a>
     <h1>Calendar</h1>
     <ul>
-        <li><a href="${authorizationUrlGoogleCalendarList}">calendarList</a></li>
+        <li><a href="<%=request.getContextPath()%>/calendar/calendarList">calendarList</a></li>
     </ul>
 </body>
 </html>

@@ -16,7 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A helper class for Google's OAuth2 authentication API.
+ * A helper class for Google's OAuth2 authentication API
+ *
+ * @author <a href="http://www.matelli.fr">Matelli</a>
+ * @see <a href="https://developers.google.com/accounts/docs/OAuth2WebServer">https://developers.google.com/accounts/docs/OAuth2WebServer</a>
+ * @see <a href="https://code.google.com/p/google-api-java-client/wiki/OAuth2">https://code.google.com/p/google-api-java-client/wiki/OAuth2</a>
  */
 public class GoogleAuthHelper {
 
@@ -54,7 +58,7 @@ public class GoogleAuthHelper {
      * @throws Exception
      */
     public GoogleAuthHelper(String redirectUri) throws Exception {
-        if (redirectUri != null && !redirectUri.isEmpty()) {
+        if (redirectUri != null) {
             this.redirectUri = baseRedirectUri + redirectUri;
         }
     }

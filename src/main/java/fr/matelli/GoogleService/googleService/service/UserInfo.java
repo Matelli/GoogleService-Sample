@@ -11,6 +11,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Classe permettant d'interagir avec les services Google User
+ *
+ * @author <a href="http://www.matelli.fr">Matelli</a>
+ * @see fr.matelli.GoogleService.googleService.GoogleAuthHelper
+ * @see <a href"https://developers.google.com/drive/v2/reference/>https://developers.google.com/drive/v2/reference/</a>
+ */
 public class UserInfo extends GoogleAuthHelper {
 
     {

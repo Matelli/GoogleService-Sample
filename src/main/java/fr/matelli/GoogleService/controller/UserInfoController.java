@@ -12,6 +12,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Classe d'exemple afin d'utiliser le SSO de google
+ *
+ * @author <a href="http://www.matelli.fr">Matelli</a>
+ * @see fr.matelli.GoogleService.googleService.GoogleAuthHelper
+ * @see fr.matelli.GoogleService.googleService.service.UserInfo
+ */
 @Controller
 @RequestMapping("/userinfo")
 public class UserInfoController {

@@ -16,6 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * Classe d'exemple afin d'utiliser le service Drive
+ *
+ * @author <a href="http://www.matelli.fr">Matelli</a>
+ * @see fr.matelli.GoogleService.googleService.GoogleAuthHelper
+ * @see fr.matelli.GoogleService.googleService.service.DriveService
+ */
 @Controller
 @RequestMapping("/drive")
 public class DriveController {
