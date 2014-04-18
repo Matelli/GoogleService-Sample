@@ -2,15 +2,11 @@ package fr.matelli.GoogleService.controller;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.drive.model.File;
-import com.google.api.services.oauth2.model.Userinfoplus;
 import fr.matelli.GoogleService.googleService.service.DriveService;
-import fr.matelli.GoogleService.googleService.service.UserInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

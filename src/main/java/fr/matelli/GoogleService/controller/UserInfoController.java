@@ -2,7 +2,7 @@ package fr.matelli.GoogleService.controller;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.oauth2.model.Userinfoplus;
-import fr.matelli.GoogleService.googleService.service.UserInfo;
+import fr.matelli.GoogleService.googleService.service.UserInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author <a href="http://www.matelli.fr">Matelli</a>
  * @see fr.matelli.GoogleService.googleService.GoogleAuthHelper
- * @see fr.matelli.GoogleService.googleService.service.UserInfo
+ * @see fr.matelli.GoogleService.googleService.service.UserInfoService
  */
 @Controller
 @RequestMapping("/userinfo")
@@ -25,7 +25,7 @@ public class UserInfoController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String printHome(ModelMap model) throws Exception {
-        UserInfo userInfo = new UserInfo("/userinfo/login");
+        UserInfoService userInfo = new UserInfoService("/userinfo/login");
         model.addAttribute("authorizationUrlGoogle", userInfo.getAuthorizationUrl());
         return "userinfo/index";
     }
@@ -33,7 +33,7 @@ public class UserInfoController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String printInfoUser(ModelMap model, HttpServletRequest request, HttpSession session) throws Exception {
         if (request.getParameter("code") != null) {
-            UserInfo userInfo = new UserInfo("/userinfo/login");
+            UserInfoService userInfo = new UserInfoService("/userinfo/login");
             userInfo.setAuthorizationCode(request.getParameter("code"));
             Credential credential = userInfo.exchangeCode();
             Userinfoplus user = userInfo.getUserInfo(credential);

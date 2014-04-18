@@ -18,7 +18,7 @@ import java.util.List;
  * @see fr.matelli.GoogleService.googleService.GoogleAuthHelper
  * @see <a href"https://developers.google.com/drive/v2/reference/>https://developers.google.com/drive/v2/reference/</a>
  */
-public class UserInfo extends GoogleAuthHelper {
+public class UserInfoService extends GoogleAuthHelper {
 
     {
         // Liste des autorisations
@@ -26,7 +26,7 @@ public class UserInfo extends GoogleAuthHelper {
                 Oauth2Scopes.USERINFO_PROFILE));
     }
 
-    public UserInfo(String redirectUri) throws Exception {
+    public UserInfoService(String redirectUri) throws Exception {
         super(redirectUri);
     }
 
