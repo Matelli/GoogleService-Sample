@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/userinfo")
 public class UserInfoController {
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     public String printHome(ModelMap model) throws Exception {
         UserInfoService userInfo = new UserInfoService("/userinfo/login");
         model.addAttribute("authorizationUrlGoogle", userInfo.getAuthorizationUrl());
@@ -40,6 +40,7 @@ public class UserInfoController {
             if (user != null && user.isVerifiedEmail()) {
                 session.setAttribute("user", user);
                 session.setAttribute("refreshToken", credential.getRefreshToken());
+                session.setAttribute("scopes", userInfo.getScopes());
                 return "redirect:/home";
             }
         }

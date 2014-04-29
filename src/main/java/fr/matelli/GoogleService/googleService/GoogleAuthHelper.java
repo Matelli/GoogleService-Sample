@@ -193,4 +193,8 @@ public class GoogleAuthHelper {
     public void setScopes(List<String> scopes) {
         this.scopes = scopes;
     }
+
+    public List<String> getScopes() {
+        return scopes;
+    }
 }
