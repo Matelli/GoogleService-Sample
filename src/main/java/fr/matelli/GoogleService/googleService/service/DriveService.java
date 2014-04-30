@@ -179,7 +179,7 @@ public class DriveService extends GoogleAuthHelper {
         // File's metadata.
         File body = new File();
         body.setTitle(fileContent.getName());
-        body.setMimeType(MimeUtils.TXT.getMimeType());
+        body.setMimeType(mimeType);
         body.setEditable(true);
 
         // Set the parent folder.
@@ -187,7 +187,7 @@ public class DriveService extends GoogleAuthHelper {
             body.setParents(Arrays.asList(new ParentReference().setId(parentId)));
         }
 
-        FileContent mediaContent = new FileContent(MimeUtils.TXT.getMimeType(), fileContent);
+        FileContent mediaContent = new FileContent(mimeType, fileContent);
         try {
             File file = serviceDrive.files().insert(body, mediaContent).setConvert(true).execute();
 

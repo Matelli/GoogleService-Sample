@@ -76,7 +76,7 @@ public class DriveController {
                 Credential credential = driveService.exchangeCode();
                 java.io.File fileContent = new java.io.File("README.md");
 
-                File file = driveService.insertFile(credential, null, fileContent, MimeUtils.GOOGLE_DOCS_DOCUMENT.getMimeType());
+                File file = driveService.insertFile(credential, null, fileContent, MimeUtils.TXT.getMimeType());
                 model.addAttribute("fileInserted", file);
             } else {
                 model.addAttribute("error", "Aucun code de retour de google");
