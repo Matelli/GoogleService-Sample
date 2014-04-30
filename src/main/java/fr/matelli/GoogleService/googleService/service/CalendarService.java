@@ -53,7 +53,10 @@ public class CalendarService extends GoogleAuthHelper {
     }
 
     /**
-     * Subscribe to calendar
+     * Subscribe à un calendrier
+     *
+     * Voir la documentation de google :
+     * https://developers.google.com/google-apps/calendar/v3/reference/calendarList/insert?hl=fr
      *
      * @param calendarId
      * @return CalendarListEntry
@@ -68,11 +71,13 @@ public class CalendarService extends GoogleAuthHelper {
     /**
      * Créer un Calendrier
      *
+     * Voir la documentation de google :
+     * https://developers.google.com/google-apps/calendar/v3/reference/calendars/insert
+     *
      * @param credential
      * @param nameOfCalendar
      * @return The new CalendarService
      * @throws java.io.IOException
-     * @see "https://developers.google.com/google-apps/calendar/v3/reference/calendars/insert"
      */
     public com.google.api.services.calendar.model.Calendar calendarInsert(Credential credential, String nameOfCalendar) throws IOException {
         createServiceCalendar(credential);
@@ -82,18 +87,20 @@ public class CalendarService extends GoogleAuthHelper {
 
         com.google.api.services.calendar.model.Calendar createdCalendar = serviceCalendar.calendars().insert(calendar).execute();
 
-        logger.info("calendarInsert idCalendar : " + createdCalendar.getId());
+        logger.debug("calendarInsert idCalendar : " + createdCalendar.getId());
         return createdCalendar;
     }
 
     /**
      * Retourne un calendrier
      *
+     * Voir la documentation de google :
+     * https://developers.google.com/google-apps/calendar/v3/reference/calendars/get
+     *
      * @param credential
      * @param calendarIdGoogle
      * @return Un calendrier ou Null si il existe pas
      * @throws java.io.IOException
-     * @see "https://developers.google.com/google-apps/calendar/v3/reference/calendars/get"
      */
     public com.google.api.services.calendar.model.Calendar calendarGet(Credential credential, String calendarIdGoogle) throws IOException {
         createServiceCalendar(credential);
@@ -101,18 +108,21 @@ public class CalendarService extends GoogleAuthHelper {
         try {
             Calendar.Calendars.Get get = serviceCalendar.calendars().get(calendarIdGoogle);
             calendar = get.execute();
-            logger.info("calendarGet : " + calendar.getSummary());
+            logger.debug("calendarGet : " + calendar.getSummary());
             return calendar;
         } catch (com.google.api.client.googleapis.json.GoogleJsonResponseException e) {
             // Dans ce cas on ne doit pas arreter le script
-            logger.warn("calendarGet : NULL");
-            logger.warn("Warning (Le calendrier n'existe pas) : " + e);
+            logger.debug("calendarGet : NULL");
+            logger.debug("Warning (Le calendrier n'existe pas) : " + e);
             return null;
         }
     }
 
     /**
      * Returns entries on the user's calendar list
+     *
+     * Voir la documentation de google :
+     * https://developers.google.com/google-apps/calendar/v3/reference/calendarList/list?hl=fr
      *
      * @param credential
      * @return CalendarListEntry
@@ -134,12 +144,14 @@ public class CalendarService extends GoogleAuthHelper {
     /**
      * Returns events on the specified calendar
      *
+     * Voir la documentation de google :
+     * https://developers.google.com/google-apps/calendar/v3/reference/events/list
+     *
      * @param credential
      * @param calendarIdGoogle
      * @param timeMin
      * @return A list of Event
      * @throws java.io.IOException
-     * @see "https://developers.google.com/google-apps/calendar/v3/reference/events/list"
      */
     public List<Event> eventsList(Credential credential, String calendarIdGoogle, DateTime timeMin)
             throws IOException {
@@ -157,55 +169,61 @@ public class CalendarService extends GoogleAuthHelper {
             }
             pageToken = events.getNextPageToken();
         } while (pageToken != null);
-        logger.info("nb Events : " + listEvents.size());
+        logger.debug("nb Events : " + listEvents.size());
         return listEvents;
     }
 
     /**
      * Creates an event
      *
+     * Voir la documentation de google :
+     * https://developers.google.com/google-apps/calendar/v3/reference/events/insert
+     *
      * @param credential
      * @param calendarIdGoogle
      * @param event
      * @return Event
      * @throws java.io.IOException
-     * @see "https://developers.google.com/google-apps/calendar/v3/reference/events/insert"
      */
     public Event eventInsert(Credential credential, String calendarIdGoogle, Event event)
             throws IOException {
         createServiceCalendar(credential);
         Event createdEvent = serviceCalendar.events().insert(calendarIdGoogle, event).execute();
-        logger.info("createdEvent : " + createdEvent.getId() + ", " + event.getSummary());
+        logger.debug("createdEvent : " + createdEvent.getId() + ", " + event.getSummary());
         return createdEvent;
     }
 
     /**
      * Updates an event
      *
+     * Voir la documentation de google :
+     * https://developers.google.com/google-apps/calendar/v3/reference/events/update
+     *
      * @param credential
      * @param calendarIdGoogle
      * @param event
      * @throws java.io.IOException
-     * @see "https://developers.google.com/google-apps/calendar/v3/reference/events/update"
      */
     public Event eventUpdate(Credential credential, String calendarIdGoogle, Event event)
             throws IOException {
         createServiceCalendar(credential);
         Event updatedEvent = serviceCalendar.events().update(calendarIdGoogle, event.getId(), event).execute();
-        logger.info("eventUpdate updatedEvent : " + updatedEvent.toPrettyString());
-        logger.info("createdUpdate : " + updatedEvent.getId() + ", " + event.getSummary());
+        logger.debug("eventUpdate updatedEvent : " + updatedEvent.toPrettyString());
+        logger.debug("createdUpdate : " + updatedEvent.getId() + ", " + event.getSummary());
         return updatedEvent;
     }
 
     /**
      * Returns an event
      *
+     * Voir la documentation de google :
+     * https://developers.google.com/google-apps/calendar/v3/reference/events/get
+     *
      * @param credential
      * @param calendarIdGoogle
      * @param eventId
      * @return
      * @throws java.io.IOException
-     * @see "https://developers.google.com/google-apps/calendar/v3/reference/events/get"
      */
     public Event eventGet(Credential credential, String calendarIdGoogle, String eventId)
             throws IOException {
@@ -218,11 +236,13 @@ public class CalendarService extends GoogleAuthHelper {
     /**
      * Deletes an event
      *
+     * Voir la documentation de google :
+     * https://developers.google.com/google-apps/calendar/v3/reference/events/delete
+     *
      * @param credential
      * @param calendarIdGoogle
      * @param eventId
      * @throws java.io.IOException
-     * @see "https://developers.google.com/google-apps/calendar/v3/reference/events/delete"
      */
     public void eventDelete(Credential credential, String calendarIdGoogle, String eventId)
             throws IOException {
