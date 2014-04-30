@@ -10,7 +10,8 @@
     </c:if>
     <c:if test="${empty authorizationUrlGoogleCalendar}">
         <ul>
-            <li><a href="<%=request.getContextPath()%>/calendar/calendarList">calendarList</a></li>
+            <li><a href="<%=request.getContextPath()%>/calendar/calendarInsert">Creation de 3 nouveaux calendriers</a></li>
+            <li><a href="<%=request.getContextPath()%>/calendar/calendarList">Liste vos prochain évenement</a></li>
         </ul>
     </c:if>
 </body>

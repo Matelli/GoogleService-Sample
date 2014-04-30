@@ -9,11 +9,21 @@
 <h1>Calendar</h1>
 Voici les calendriers créer dans votre agenda
 
-<ul>
-    <c:forEach var="nameCalendar" items="${listSummaryCalendar}">
-        <li>${nameCalendar}</li>
+<table>
+    <tr>
+        <th colspan="2">Nom</th>
+        <th>description</th>
+        <th>TimeZone</th>
+    </tr>
+    <c:forEach var="calendar" items="${calendarListEntries}">
+        <tr>
+            <td><div style="width:10px; height:10px; background-color:${calendar.backgroundColor}"></div></td>
+            <td><a href="listEvents/${calendar.id}/">${calendar.summary}</a></td>
+            <td>${calendar.description}</td>
+            <td>${calendar.timeZone}</td>
+        </tr>
     </c:forEach>
-</ul>
+</table>
 
 </body>
 </html>

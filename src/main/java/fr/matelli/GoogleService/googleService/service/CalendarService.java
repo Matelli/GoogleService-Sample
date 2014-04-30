@@ -157,20 +157,24 @@ public class CalendarService extends GoogleAuthHelper {
             throws IOException {
         createServiceCalendar(credential);
         String pageToken = null;
-        List<Event> listEvents = new ArrayList<Event>();
+        List<Event> listAllEvents = new ArrayList<Event>();
 
         do {
-            Events events = serviceCalendar.events().list(calendarIdGoogle)
-                    .setPageToken(pageToken)
-                    .setTimeMin(timeMin).execute();
+            Calendar.Events.List listEvents = serviceCalendar.events().list(calendarIdGoogle).setPageToken(pageToken);
+
+            if (timeMin != null)
+                listEvents.setTimeMin(timeMin);
+
+            Events events = listEvents.execute();
+
             List<Event> items = events.getItems();
             for (Event event : items) {
-                listEvents.add(event);
+                listAllEvents.add(event);
             }
             pageToken = events.getNextPageToken();
         } while (pageToken != null);
-        logger.debug("nb Events : " + listEvents.size());
-        return listEvents;
+        logger.debug("nb Events : " + listAllEvents.size());
+        return listAllEvents;
     }
 
     /**

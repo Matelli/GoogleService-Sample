@@ -5,12 +5,14 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.Event;
 import com.google.api.services.drive.model.File;
 import fr.matelli.GoogleService.googleService.service.CalendarService;
 import fr.matelli.GoogleService.googleService.service.DriveService;
 import fr.matelli.GoogleService.googleService.service.UserInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -66,6 +68,7 @@ public class CalendarController {
     }
 
     /**
+     * Creation de plusieurs calendriers
      *
      * @param model
      * @param request
@@ -73,8 +76,8 @@ public class CalendarController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/calendarList", method = RequestMethod.GET)
-    public String printCalendarList(ModelMap model, HttpServletRequest request, HttpSession session) throws Exception {
+    @RequestMapping(value = "/calendarInsert", method = RequestMethod.GET)
+    public String printInsertCalendar(ModelMap model, HttpServletRequest request, HttpSession session) throws Exception {
         if (session.getAttribute("user") != null) {
             CalendarService calendarService = new CalendarService(null);
             calendarService.setRefreshToken(session.getAttribute("refreshToken").toString());
@@ -84,7 +87,37 @@ public class CalendarController {
             listSummaryCalendar.add(calendarService.calendarInsert(credential, "toto2").getSummary());
             listSummaryCalendar.add(calendarService.calendarInsert(credential, "toto3").getSummary());
             model.addAttribute("listSummaryCalendar", listSummaryCalendar);
-            System.out.println("model = [" + model + "], request = [" + request + "]");
+            return "calendar/calendarInsert";
+        } else {
+            return "redirect:/userinfo";
+        }
+    }
+
+
+    @RequestMapping(value = "/listEvents/{calendarId}/", method = RequestMethod.GET)
+    public String printCalendarList(ModelMap model, HttpServletRequest request, HttpSession session, @PathVariable String calendarId) throws Exception {
+        if (session.getAttribute("user") != null) {
+            CalendarService calendarService = new CalendarService(null);
+            calendarService.setRefreshToken(session.getAttribute("refreshToken").toString());
+            Credential credential = calendarService.exchangeCode();
+            List<Event> eventListEntries = calendarService.eventsList(credential, calendarId, null);
+            model.addAttribute("events", eventListEntries);
+            model.addAttribute("calendarId", calendarId);
+            return "calendar/eventList";
+        } else {
+            return "redirect:/userinfo";
+        }
+    }
+
+
+    @RequestMapping(value = "/calendarList", method = RequestMethod.GET)
+    public String printEventList(ModelMap model, HttpServletRequest request, HttpSession session) throws Exception {
+        if (session.getAttribute("user") != null) {
+            CalendarService calendarService = new CalendarService(null);
+            calendarService.setRefreshToken(session.getAttribute("refreshToken").toString());
+            Credential credential = calendarService.exchangeCode();
+            List<CalendarListEntry> calendarListEntries = calendarService.calendarList(credential);
+            model.addAttribute("calendarListEntries", calendarListEntries);
             return "calendar/calendarList";
         } else {
             return "redirect:/userinfo";
