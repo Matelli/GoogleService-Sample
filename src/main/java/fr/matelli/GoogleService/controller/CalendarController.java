@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,10 +79,11 @@ public class CalendarController {
             CalendarService calendarService = new CalendarService(null);
             calendarService.setRefreshToken(session.getAttribute("refreshToken").toString());
             Credential credential = calendarService.exchangeCode();
-            Calendar calendarInsert = calendarService.calendarInsert(credential, "toto1");
-            calendarService.calendarInsert(credential, "toto2");
-            calendarService.calendarInsert(credential, "toto3");
-            model.addAttribute("calendarListEntries", calendarInsert.getSummary());
+            List<String> listSummaryCalendar = new ArrayList<String>();
+            listSummaryCalendar.add(calendarService.calendarInsert(credential, "toto1").getSummary());
+            listSummaryCalendar.add(calendarService.calendarInsert(credential, "toto2").getSummary());
+            listSummaryCalendar.add(calendarService.calendarInsert(credential, "toto3").getSummary());
+            model.addAttribute("listSummaryCalendar", listSummaryCalendar);
             System.out.println("model = [" + model + "], request = [" + request + "]");
             return "calendar/calendarList";
         } else {
