@@ -25,6 +25,7 @@ public class UserInfoController {
 
     @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     public String printHome(ModelMap model) throws Exception {
+        // "/userinfo/login" : Url de callback pour google
         UserInfoService userInfo = new UserInfoService("/userinfo/login");
         model.addAttribute("authorizationUrlGoogle", userInfo.getAuthorizationUrl());
         return "userinfo/index";
