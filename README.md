@@ -1,12 +1,12 @@
 # GoogleService
 
-## Installation
+## Exécution
 
--
-
-## Excecution
-
+```
 mvn clean install tomcat:run
+```
+
+Puis, dans votre navigateur : [http://localhost:8080/GoogleService/](http://localhost:8080/GoogleService/)
 
 ## Licence
 
