@@ -22,12 +22,6 @@
     </repositories>
 
 	<dependencies>
-        <!-- jstl -->
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>${jstl.version}</version>
-        </dependency>
 
         <!-- Spring 3 dependencies -->
 		<dependency>
@@ -46,12 +40,21 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+        <!-- jstl - librairies de tags JSP -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
 
+        <!-- API de journalisation (Log) -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+
+        <!--  -->
         <dependency>
             <groupId>servletapi</groupId>
             <artifactId>servletapi</artifactId>
@@ -72,8 +75,8 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
+						<source>1.7</source>
+						<target>1.7</target>
 					</configuration>
 				</plugin>
 			</plugins>
