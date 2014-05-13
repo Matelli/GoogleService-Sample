@@ -2,6 +2,7 @@ package fr.matelli.GoogleService.controller;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.drive.model.File;
+import fr.matelli.GoogleService.googleService.GoogleAuthHelper;
 import fr.matelli.GoogleService.googleService.service.DriveService;
 import fr.matelli.GoogleService.googleService.utils.MimeUtils;
 import org.springframework.stereotype.Controller;
@@ -17,8 +18,8 @@ import java.util.List;
  * Classe d'exemple afin d'utiliser le service Drive
  *
  * @author <a href="http://www.matelli.fr">Matelli</a>
- * @see fr.matelli.GoogleService.googleService.GoogleAuthHelper
- * @see fr.matelli.GoogleService.googleService.service.DriveService
+ * @see GoogleAuthHelper
+ * @see DriveService
  */
 @Controller
 @RequestMapping("/drive")

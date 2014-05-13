@@ -2,6 +2,7 @@ package fr.matelli.GoogleService.controller;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.oauth2.model.Userinfoplus;
+import fr.matelli.GoogleService.googleService.GoogleAuthHelper;
 import fr.matelli.GoogleService.googleService.service.UserInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,8 +17,8 @@ import javax.servlet.http.HttpSession;
  * Classe d'exemple afin d'utiliser le SSO de google
  *
  * @author <a href="http://www.matelli.fr">Matelli</a>
- * @see fr.matelli.GoogleService.googleService.GoogleAuthHelper
- * @see fr.matelli.GoogleService.googleService.service.UserInfoService
+ * @see GoogleAuthHelper
+ * @see UserInfoService
  */
 @Controller
 @RequestMapping("/userinfo")
@@ -25,7 +26,7 @@ public class UserInfoController {
 
     @RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
     public String printHome(ModelMap model) throws Exception {
-        // "/userinfo/login" : Url de callback pour google
+//        "/userinfo/login" : Url de callback pour google
         UserInfoService userInfo = new UserInfoService("/userinfo/login");
         model.addAttribute("authorizationUrlGoogle", userInfo.getAuthorizationUrl());
         return "userinfo/index";

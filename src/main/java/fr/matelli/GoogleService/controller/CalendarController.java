@@ -2,14 +2,10 @@ package fr.matelli.GoogleService.controller;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.calendar.CalendarScopes;
-import com.google.api.services.calendar.model.Calendar;
-import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
-import com.google.api.services.drive.model.File;
+import fr.matelli.GoogleService.googleService.GoogleAuthHelper;
 import fr.matelli.GoogleService.googleService.service.CalendarService;
-import fr.matelli.GoogleService.googleService.service.DriveService;
-import fr.matelli.GoogleService.googleService.service.UserInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +21,8 @@ import java.util.List;
  * Classe d'exemple afin d'utiliser le service Calendar
  *
  * @author <a href="http://www.matelli.fr">Matelli</a>
- * @see fr.matelli.GoogleService.googleService.GoogleAuthHelper
- * @see fr.matelli.GoogleService.googleService.service.CalendarService
+ * @see GoogleAuthHelper
+ * @see CalendarService
  */
 @Controller
 @RequestMapping("/calendar")

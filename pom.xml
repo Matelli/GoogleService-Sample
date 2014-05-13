@@ -11,10 +11,25 @@
 	<properties>
 		<spring.version>3.0.5.RELEASE</spring.version>
         <jstl.version>1.2</jstl.version>
+        <github.global.server>github</github.global.server>
 	</properties>
 
+    <repositories>
+        <repository>
+            <id>GoogleService</id>
+            <url>https://raw.github.com/Matelli/GoogleService/mvn-repo/</url>
+        </repository>
+    </repositories>
+
 	<dependencies>
-		<!-- Spring 3 dependencies -->
+        <!-- jstl -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+
+        <!-- Spring 3 dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -43,52 +58,13 @@
             <version>2.4</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>fr.matelli</groupId>
+            <artifactId>MatelliGoogleService</artifactId>
+            <version>0.1.1</version>
+        </dependency>
+    </dependencies>
 
-
-        <!-- jstl -->
-        <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>${jstl.version}</version>
-        </dependency>
-
-
-        <!-- Google Oauth -->
-        <dependency>
-            <groupId>com.google.apis</groupId>
-            <artifactId>google-api-services-oauth2</artifactId>
-            <version>v2-rev67-1.18.0-rc</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.http-client</groupId>
-            <artifactId>google-http-client-jackson2</artifactId>
-            <version>1.17.0-rc</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.api-client</groupId>
-            <artifactId>google-api-client</artifactId>
-            <version>1.17.0-rc</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.api-client</groupId>
-            <artifactId>google-api-client-servlet</artifactId>
-            <version>1.17.0-rc</version>
-        </dependency>
-
-        <!-- Google DriveService -->
-        <dependency>
-            <groupId>com.google.apis</groupId>
-            <artifactId>google-api-services-drive</artifactId>
-            <version>v2-rev120-1.18.0-rc</version>
-        </dependency>
-
-        <!-- Google CalendarService -->
-        <dependency>
-            <groupId>com.google.apis</groupId>
-            <artifactId>google-api-services-calendar</artifactId>
-            <version>v3-rev79-1.18.0-rc</version>
-        </dependency>
-	</dependencies>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -102,6 +78,5 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<finalName>GoogleService</finalName>
 	</build>
 </project>
