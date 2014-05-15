@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MatelliGoogleService>
+	<host>http://gservicematelli.appspot.com</host>
+	<service>
+		<sso>
+			<scopes>
+				<value>https://www.googleapis.com/auth/userinfo.email</value>
+				<value>https://www.googleapis.com/auth/userinfo.profile</value>
+			</scopes>
+		</sso>
+		<drive>
+			<scopes>
+				<value>https://www.googleapis.com/auth/drive</value>
+			</scopes>
+		</drive>
+	   	<calendar>
+			<scopes>
+				<value>https://www.googleapis.com/auth/calendar</value>
+			</scopes>
+	   	</calendar>
+   	</service>
+</MatelliGoogleService>
