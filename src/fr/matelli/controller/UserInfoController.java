@@ -47,18 +47,13 @@ public class UserInfoController {
 			Credential credential = userInfo.exchangeCode();
 			Userinfoplus user = userInfo.getUserInfo(credential);
 			if (user != null && user.isVerifiedEmail()) {
-//				session.setAttribute("user", user);
-//				session.setAttribute("refreshToken", credential.getRefreshToken());
-//				session.setAttribute("scopes", userInfo.getScopes());
-//				model.addAttribute("error", session.getAttribute("user"));
-
 				Handling.createCookie(response, "userId", user.getId());
 				Handling.createCookie(response, "refreshToken", credential.getRefreshToken());
 	            model.addAttribute("user", user);
 
 				return "home";
 			} else {
-				model.addAttribute("error", "Probl??mes d'authentification");
+				model.addAttribute("error", "Problèmes d'authentification");
 			}
 		}
 		return printHome(model);

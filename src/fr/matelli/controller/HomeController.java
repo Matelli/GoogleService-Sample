@@ -26,7 +26,6 @@ public class HomeController {
 			UserInfoService userInfoService = new UserInfoService(null);
 			userInfoService.setRefreshToken(Handling.getCookie(request, "refreshToken"));
 			Credential credential = userInfoService.exchangeCode();
-			//List<Event> eventListEntries = userInfoService.getUserInfo(credential);
 			Userinfoplus userinfoplus = userInfoService.getUserInfo(credential);
             model.addAttribute("user", userinfoplus);
             return "home";

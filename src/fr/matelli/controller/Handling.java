@@ -6,6 +6,13 @@ import javax.servlet.http.HttpServletResponse;
 
 public class Handling {
 
+	/**
+	 * Retourne un cookie
+	 * 
+	 * @param request
+	 * @param name
+	 * @return
+	 */
 	public static String getCookie(HttpServletRequest request, String name) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
@@ -18,6 +25,13 @@ public class Handling {
 		return null;
 	}
 	
+	/**
+	 * Créer un cookie
+	 * 
+	 * @param response
+	 * @param name
+	 * @param value
+	 */
 	public static void createCookie(HttpServletResponse response, String name, String value) {
 		Cookie cookie = new Cookie(name, value);
 		cookie.setMaxAge(60*60);
