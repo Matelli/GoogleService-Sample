@@ -9,7 +9,7 @@
 		<div class="header">
 			<ul class="nav nav-pills pull-right">
 				<li><a href="https://github.com/Matelli/GoogleService">Github</a></li>
-				<li><a href="<%=request.getContextPath()%>/">SSO (OAuth 2.0)</a></li>
+				<li><a href="<%=request.getContextPath()%>/home">SSO (OAuth 2.0)</a></li>
 				<li><a href="<%=request.getContextPath()%>/calendar/">Calendar</a></li>
 				<li class="active"><a href="<%=request.getContextPath()%>/drive/">Drive</a></li>
 				<li><a href="<%=request.getContextPath()%>/userinfo/logout">Logout</a></li>
