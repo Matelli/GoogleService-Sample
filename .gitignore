@@ -1,10 +1,5 @@
-.idea/**
-/target/**
-.settings/**
-.project
-.classpath
-*.iml
 GoogleService.properties
 GoogleService.script
 **/client_secret.json
-/target
+
+*.class
